@@ -26,15 +26,15 @@ chrome_options.add_experimental_option('prefs', {
     'safebrowsing.enabled': True
 })
 
-# Initialize the WebDriver
+# Step 1: Initialize the WebDriver and scrape the data from NHL Stats
+
 service = Service('chromedriver.exe')
 driver = webdriver.Chrome(service=service, options=chrome_options)
 driver.maximize_window()
 
 try:
-    combined_data = pd.DataFrame()  # Initialize an empty DataFrame for combining data
+    combined_data = pd.DataFrame()
 
-    # Loop through pages
     for page in range(0, 13):
         url = BASE_URL.format(page)
         driver.get(url)
@@ -43,7 +43,8 @@ try:
         export_link = WebDriverWait(driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/main/div/div/div/div[2]/div/div[2]/div/main/div[2]/h4/a'))
         )
-        # Scroll to the element if necessary
+
+        # Scroll to the element
         driver.execute_script("arguments[0].scrollIntoView(true);", export_link)
         export_link.click()
         time.sleep(5)  # Wait for the file to download
