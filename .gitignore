@@ -1,3 +1,4 @@
 .env
 /venv/
 chromedriver.exe
+.ipynb_checkpoints/
